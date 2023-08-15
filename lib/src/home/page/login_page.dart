@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mymoney/src/components/App_Loading.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key , required this.title});
@@ -11,22 +12,33 @@ class LoginPage extends StatefulWidget {
 class LoginPageState extends State<LoginPage> {
   TextEditingController loginController = TextEditingController();
   TextEditingController passWordcontroller = TextEditingController();
+  bool isLoading = true;
 
   @override
+  void initState(){
+    super.initState();
+
+    Future.delayed((const Duration(seconds: 3))).then((_) => setState((){
+      isLoading = false;
+    }));
+  }
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return isLoading
+    ? const AppLoading()
+    : Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: SafeArea(
           child: Center(
             child: Padding(
-              padding: const EdgeInsets.only(top: 140, left: 25, right: 25),
+              padding: const EdgeInsets.only(top: 100, left: 25, right: 25),
               child: Column(
                   mainAxisSize: MainAxisSize.max,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Image.asset("lib/src/Assets/logoApp.png"),
-                    Text("Login" , style: TextStyle(fontSize: 35 , fontWeight: FontWeight.bold, color: Colors.green[600]),),
+                    Image.asset("lib/src/Assets/logoApp.png", width: 180, fit: BoxFit.contain,),
+                    Text("MyMoney" , style: TextStyle(fontSize: 30 , fontWeight: FontWeight.bold, color: Colors.green[700]),),
                     TextFormField(
                       enabled: true,
                       controller: loginController,
@@ -52,7 +64,7 @@ class LoginPageState extends State<LoginPage> {
                           onPressed: () {},
                           style: ButtonStyle(
                               backgroundColor:
-                                  MaterialStateProperty.all(Colors.green[400]),
+                                  MaterialStateProperty.all(Colors.lightGreen),
                               elevation: MaterialStateProperty.all(0),
                               shape: MaterialStateProperty.all(
                                   RoundedRectangleBorder(
