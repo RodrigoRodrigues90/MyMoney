@@ -18,6 +18,12 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  void _reset() {
+    setState(() {
+      _counter = 0;
+    });
+  }
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
