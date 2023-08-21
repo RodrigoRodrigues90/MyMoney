@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mymoney/src/home/modules/login/page/login_page.dart';
 import 'package:mymoney/src/modules/initial/page/initial_page.dart';
+import 'package:mymoney/src/modules/login/page/login_page.dart';
 import 'package:mymoney/src/router/app_router.dart';
 
 void main() {
