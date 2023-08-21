@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mymoney/src/shared/colors/app_colors.dart';
 
 class AppLoading extends StatelessWidget {
   const AppLoading({super.key});
@@ -6,9 +7,11 @@ class AppLoading extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      body:  Center(
+      backgroundColor: AppColors.appPageBackground,
+      body: Center(
         child: CircularProgressIndicator(
-          valueColor: AlwaysStoppedAnimation<Color>(Colors.lightGreen),
+          backgroundColor: AppColors.appPageBackground,
+          valueColor: AlwaysStoppedAnimation<Color>(Colors.green),
         ),
       ),
     );
