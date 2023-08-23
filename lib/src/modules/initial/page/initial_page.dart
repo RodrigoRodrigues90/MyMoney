@@ -34,7 +34,8 @@ class _InitialPageState extends State<InitialPage> {
             AppLogoTitle(title: 'My Money'),
           ],
         ),
-      )),
+      ),
+      ),
     );
   }
 }

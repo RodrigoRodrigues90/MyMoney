@@ -20,7 +20,7 @@ class AppButton extends StatelessWidget {
     this.paddingBottom,
     this.paddingLeft,
     this.paddingRigth,
-    this.height,
+    this.height, required ,
   }) : super(key: key);
 
   @override

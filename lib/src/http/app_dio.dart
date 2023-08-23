@@ -12,7 +12,7 @@ mixin AppDio{
     final Dio dio = Dio();
     final Map<String, String> headers = <String, String>{};
 
-      String token = "";
+      String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRoaWFnb3JvbWVuZGVzQGdtYWlsLmNvbSIsInN1YiI6IjU4OGVmMDAzLWM0OTYtNDYxMy04N2MyLWNkNGRiMDc4MzdmZiIsInJvbGVzIjoiYWRtaW5pc3RyYXRvciIsImlhdCI6MTY5MjgyNDA2MiwiZXhwIjoxNzIzOTI4MDYyfQ.lozC26I-x1zuw5TdwXvZlzSyi0NgK18G7NtC_W9ZXb4";
     
     if(isAuth){
       headers["Authorization"] = "Bearer $token";
