@@ -15,7 +15,7 @@ class registerDatamodel {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['fullname'] = name;
+    data['fullName'] = name;
     data['email'] = email;
     data['password'] = password;
     data['roles'] = roles;

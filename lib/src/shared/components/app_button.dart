@@ -37,10 +37,11 @@ class AppButton extends StatelessWidget {
         child: TextButton(
           onPressed: action,
           style: TextButton.styleFrom(
+
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
             backgroundColor: Colors.green,
-            foregroundColor: Colors.green,
+            foregroundColor: Colors.black87,
             padding: const EdgeInsets.all(12),
             surfaceTintColor: Colors.green,
           ),
