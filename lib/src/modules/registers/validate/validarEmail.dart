@@ -1,11 +1,9 @@
+// ignore_for_file: file_names
+
 bool validarEmail(value){
 
-  // implementar validação de email
-  if(!value.contains("@") ||
-  !value.contains(".com") ||
-  value.length < 5){
-    return false;
-  }else{
-    return true;
-  }
+  final pattern = r'^[\w\.-]+@[\w\.-]+\.com$';
+  final regExp = RegExp(pattern);
+  return regExp.hasMatch(value);
+  
 }
