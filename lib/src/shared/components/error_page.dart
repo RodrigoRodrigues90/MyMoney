@@ -14,13 +14,12 @@ class ErrorFormPage extends StatefulWidget {
   State<ErrorFormPage> createState() => _ErrorFormPageState();
 }
 
-bool isLoading = true;
-
 class _ErrorFormPageState extends State<ErrorFormPage> {
-  void redirect(BuildContext context) {
-    Timer(const Duration(seconds: 3), () {
-      Navigator.pop(context);
-    });
+  bool isLoading = true;
+  late Timer redirectTimer;
+
+  void redirect() {
+    Navigator.pop(context);
   }
 
   @override
@@ -30,18 +29,18 @@ class _ErrorFormPageState extends State<ErrorFormPage> {
       const Duration(seconds: 2),
     ).then((_) => setState(() {
           isLoading = false;
-        }
-        ));
+        }));
+    redirectTimer = Timer(const Duration(seconds: 4), redirect);
   }
+
   @override
   void dispose() {
-    isLoading = true;
+    redirectTimer.cancel();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    redirect(context);
     return isLoading
         ? const Center(
             child: AppLoading(),

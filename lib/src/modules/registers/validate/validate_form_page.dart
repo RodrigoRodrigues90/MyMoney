@@ -16,13 +16,15 @@ class ValidateFormPage extends StatefulWidget {
   State<ValidateFormPage> createState() => _ValidatePageState();
 }
 
-bool isLoading = true;
 
 class _ValidatePageState extends State<ValidateFormPage> {
+bool isLoading = true;
+late Timer redirectTimer; 
+  
   void redirect(BuildContext context) {
-    Timer(const Duration(seconds: 3), () {
+    redirectTimer = Timer(const Duration(seconds: 4), () {
       Navigator.of(context).pushReplacementNamed(AppRouter.login);
-    });
+      });
   }
 
   @override
@@ -37,7 +39,7 @@ class _ValidatePageState extends State<ValidateFormPage> {
   }
   @override
   void dispose() {
-    isLoading = true;
+    redirectTimer.cancel();
     super.dispose();
   }
 
