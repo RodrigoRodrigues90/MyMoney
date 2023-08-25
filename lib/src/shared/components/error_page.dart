@@ -3,25 +3,23 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:mymoney/src/router/app_router.dart';
 import 'package:mymoney/src/shared/colors/app_colors.dart';
-import 'package:mymoney/src/shared/components/app_validate_logo.dart';
+import 'app_error_logo.dart';
+import 'app_loading.dart';
 
-import '../../../shared/components/app_loading.dart';
-
-class ValidateFormPage extends StatefulWidget {
-  const ValidateFormPage({super.key});
+class ErrorFormPage extends StatefulWidget {
+  const ErrorFormPage({super.key});
 
   @override
-  State<ValidateFormPage> createState() => _ValidatePageState();
+  State<ErrorFormPage> createState() => _ErrorFormPageState();
 }
 
 bool isLoading = true;
 
-class _ValidatePageState extends State<ValidateFormPage> {
+class _ErrorFormPageState extends State<ErrorFormPage> {
   void redirect(BuildContext context) {
     Timer(const Duration(seconds: 3), () {
-      Navigator.of(context).pushReplacementNamed(AppRouter.login);
+      Navigator.pop(context);
     });
   }
 
@@ -57,7 +55,7 @@ class _ValidatePageState extends State<ValidateFormPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    AppValidateLogo(title: 'cadastrado'),
+                    AppErrorLogo(title: 'Tente Novamente'),
                   ],
                 ),
               ),

@@ -1,4 +1,4 @@
-// ignore_for_file: camel_case_types
+// ignore_for_file: camel_case_types, avoid_print, file_names
 
 import 'package:mobx/mobx.dart';
 import 'package:mymoney/src/modules/registers/services/registerService.dart';

@@ -1,7 +1,9 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, avoid_print, empty_statements
 
 import 'package:flutter/material.dart';
 import 'package:mymoney/src/modules/registers/controller/registerController.dart';
+import 'package:mymoney/src/shared/components/error_page.dart';
+import 'package:mymoney/src/modules/registers/validate/validarEmail.dart';
 import 'package:mymoney/src/modules/registers/validate/validate_form_page.dart';
 import 'package:mymoney/src/shared/colors/app_colors.dart';
 import 'package:mymoney/src/shared/components/app_button.dart';
@@ -63,7 +65,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         keyboardType: TextInputType.text,
 
                         decoration: InputDecoration(
-                            label: Text("Nome"),
+                            label: Text("Nome Completo"),
                             border: UnderlineInputBorder(),
                             prefixIconColor: AppColors.logo,
                             prefixIcon: Icon(Icons.person)),
@@ -96,12 +98,9 @@ class _RegisterPageState extends State<RegisterPage> {
                         //----validar campo----//
                         validator: (value) {
                           if (value!.isEmpty) {
-                      
                             return "preencha o campo";
                           }
-                          if (!value.contains("@") ||
-                              !value.contains(".com") ||
-                              value.length < 5) {
+                          if (!validarEmail(value)) {
                             return "formato inválido";
                           }
                           return null;
@@ -167,7 +166,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           if (value!.isEmpty) {
                             return "preencha o campo";
                           }
-                          if(value.compareTo(senhaController.text)!=0){
+                          if (value.compareTo(senhaController.text) != 0) {
                             return "senha errada";
                           }
                           return null;
@@ -180,12 +179,19 @@ class _RegisterPageState extends State<RegisterPage> {
                         child: AppButton(
                             action: () async {
                               if (formularioValido()) {
+                                try{
                                 await controller.checkData(
                                     nameController: nameController.text,
                                     emailController: emailController.text,
                                     senhaController: senhaController.text,
                                     senhacConfirmadaController:
                                     senhaConfirmadaController.text);
+                                    carregarValidado();
+                              }catch(exception){
+                                print("erro");
+                                carregarInvalidado();
+                              };
+
                               }
                             },
                             label: "Cadastrar"),
@@ -199,14 +205,9 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 
-
-
   //----------validando os campos----------
-bool formularioValido() {
+  bool formularioValido() {
     if (_formKey.currentState!.validate()) {
-      Navigator.push(context,
-       MaterialPageRoute(
-            builder: (context) => const ValidateFormPage()));
       return true;
     } else {
       print("formulário invalido");
@@ -214,4 +215,15 @@ bool formularioValido() {
     }
   }
   //---------------------------------------
+
+  //---paginas de valido/invalido---
+  void carregarValidado() {
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => const ValidateFormPage()));
+  }
+  void carregarInvalidado(){
+     Navigator.push(context,
+        MaterialPageRoute(builder: (context) => const ErrorFormPage()));
+  }
+  //--------------------------------
 }
