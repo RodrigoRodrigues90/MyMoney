@@ -3,8 +3,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:mymoney/src/shared/colors/app_colors.dart';
-import 'app_error_logo.dart';
+import 'package:mymoney/src/shared/components/app_error500_dialog.dart';
 import 'app_loading.dart';
 
 class ErrorFormPage extends StatefulWidget {
@@ -20,6 +19,7 @@ class _ErrorFormPageState extends State<ErrorFormPage> {
 
   void redirect() {
     Navigator.pop(context);
+    appError500_dialog().throwDialog(context);
   }
 
   @override
@@ -30,7 +30,7 @@ class _ErrorFormPageState extends State<ErrorFormPage> {
     ).then((_) => setState(() {
           isLoading = false;
         }));
-    redirectTimer = Timer(const Duration(seconds: 4), redirect);
+    redirectTimer = Timer(const Duration(seconds: 2), redirect);
   }
 
   @override
@@ -45,20 +45,9 @@ class _ErrorFormPageState extends State<ErrorFormPage> {
         ? const Center(
             child: AppLoading(),
           )
-        : Scaffold(
-            backgroundColor: AppColors.initialPageBackground,
-            body: SafeArea(
-              child: Center(
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    AppErrorLogo(title: 'Tente Novamente'),
-                  ],
-                ),
-              ),
-            ),
-          );
+        : Center(
+        );
+            
+
   }
 }

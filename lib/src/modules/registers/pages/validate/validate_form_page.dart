@@ -7,7 +7,7 @@ import 'package:mymoney/src/router/app_router.dart';
 import 'package:mymoney/src/shared/colors/app_colors.dart';
 import 'package:mymoney/src/shared/components/app_validate_logo.dart';
 
-import '../../../shared/components/app_loading.dart';
+import '../../../../shared/components/app_loading.dart';
 
 class ValidateFormPage extends StatefulWidget {
   const ValidateFormPage({super.key});

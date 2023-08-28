@@ -2,12 +2,13 @@
 
 import 'package:flutter/material.dart';
 import 'package:mymoney/src/modules/registers/controller/registerController.dart';
-import 'package:mymoney/src/shared/components/error_page.dart';
-import 'package:mymoney/src/modules/registers/validate/validarEmail.dart';
-import 'package:mymoney/src/modules/registers/validate/validate_form_page.dart';
+import 'package:mymoney/src/modules/registers/pages/validate/validarEmail.dart';
+import 'package:mymoney/src/modules/registers/pages/validate/validate_form_page.dart';
 import 'package:mymoney/src/shared/colors/app_colors.dart';
 import 'package:mymoney/src/shared/components/app_button.dart';
 import 'package:mymoney/src/shared/components/app_logo_title.dart';
+
+import '../../../shared/components/error_page.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -51,7 +52,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       const AppLogoTitle(
-                          title: "Cadastro My Money",
+                          title: "Cadastro MyMoney",
                           titleSize: 20,
                           iconSize: 80),
 
@@ -179,19 +180,19 @@ class _RegisterPageState extends State<RegisterPage> {
                         child: AppButton(
                             action: () async {
                               if (formularioValido()) {
-                                try{
-                                await controller.checkData(
-                                    nameController: nameController.text,
-                                    emailController: emailController.text,
-                                    senhaController: senhaController.text,
-                                    senhacConfirmadaController:
-                                    senhaConfirmadaController.text);
-                                    carregarValidado();
-                              }catch(exception){
-                                print("erro");
-                                carregarInvalidado();
-                              };
-
+                                try {
+                                  await controller.checkData(
+                                      nameController: nameController.text,
+                                      emailController: emailController.text,
+                                      senhaController: senhaController.text,
+                                      senhacConfirmadaController:
+                                          senhaConfirmadaController.text);
+                                  carregarValidado();
+                                } catch (exception) {
+                                  print(exception);
+                                  carregarInvalidado();
+                                }
+                                ;
                               }
                             },
                             label: "Cadastrar"),
@@ -221,8 +222,9 @@ class _RegisterPageState extends State<RegisterPage> {
     Navigator.push(context,
         MaterialPageRoute(builder: (context) => const ValidateFormPage()));
   }
-  void carregarInvalidado(){
-     Navigator.push(context,
+
+  void carregarInvalidado() {
+    Navigator.push(context,
         MaterialPageRoute(builder: (context) => const ErrorFormPage()));
   }
   //--------------------------------

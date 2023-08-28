@@ -2,6 +2,8 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
+import 'package:mymoney/src/config/app_settings.dart';
+import 'package:mymoney/src/modules/login/page/login_page.dart';
 import 'package:mymoney/src/shared/colors/app_colors.dart';
 import 'package:mymoney/src/shared/components/app_button.dart';
 import 'package:mymoney/src/shared/components/app_logo_title.dart';
@@ -9,20 +11,48 @@ import 'package:mymoney/src/shared/components/app_logo_title.dart';
 // ignore: camel_case_types
 class personalRegisterPage extends StatefulWidget {
   const personalRegisterPage({super.key});
-
+  
   @override
   State<personalRegisterPage> createState() => _personalRegisterPageState();
 }
-
 // ignore: camel_case_types
 class _personalRegisterPageState extends State<personalRegisterPage> {
+
+late Future<String> nameUser;
+late String savedValue = '';
+
+void loadSavedValue() async {
+    String value = await AppSettings.get();
+    setState(() {
+      savedValue = value;
+    });
+  }
+  
+  @override
+  void initState(){
+    super.initState();
+    nameUser = AppSettings.get();
+    loadSavedValue();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: AppColors.appPageBackground,
-        elevation: 0,
-        leading: IconButton(icon: const Icon(Icons.arrow_back), onPressed: () => Navigator.pop(context),),
+        backgroundColor: AppColors.logo,
+        elevation:10,
+        leading: const Icon((Icons.person_2 ),color: AppColors.initialPageBackground,),       
+        title: Text('${savedValue}'),
+        titleTextStyle: 
+          const TextStyle(color: AppColors.initialPageBackground),
+          titleSpacing: -10,         
+        shadowColor: AppColors.black,
+        actions: [
+          IconButton(onPressed: (){
+             Navigator.push(context,
+        MaterialPageRoute(builder: (context) => const LoginPage()));
+          }, icon: const Icon(Icons.logout), color: AppColors.appPageBackground,),          
+        ], 
       ),
       backgroundColor: AppColors.appPageBackground,
       body: SingleChildScrollView(
@@ -43,22 +73,8 @@ class _personalRegisterPageState extends State<personalRegisterPage> {
                     titleSize: 20,
                     iconSize: 80,
                     ),
-                    TextFormField(
-                      enabled: true,
-                      textAlign: TextAlign.start,
-                      autofocus: false,
-                      keyboardType: TextInputType.text,
-                      decoration: const InputDecoration(
-                        label: Text("Nome Completo")),
-                    ),
-                    TextFormField(
-                      enabled: true,
-                      textAlign: TextAlign.start,
-                      autofocus: false,
-                      keyboardType: TextInputType.text,
-                      decoration: const InputDecoration(
-                        label: Text("E-mail")),
-                    ),
+                   
+                   
                     TextFormField(
                       enabled: true,
                       textAlign: TextAlign.start,
