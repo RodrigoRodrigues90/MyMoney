@@ -1,14 +1,20 @@
 // ignore_for_file: file_names, camel_case_types
 
 class loginDatamodel {
-
-  String name;
+  String username;
   String password;
 
-  String? token;
-  
-  loginDatamodel(
-      {required this.name,
-      required this.password,
-      });
+  loginDatamodel({
+    required this.username,
+    required this.password,
+  });
+
+  Map<String, dynamic> tojson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+
+    data["username"] = username;
+    data["password"] = password;
+
+    return data;
+  }
 }

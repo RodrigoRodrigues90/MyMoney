@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:mymoney/src/modules/registers/controller/registerController.dart';
-import 'package:mymoney/src/modules/registers/pages/validate/validarEmail.dart';
+import 'package:mymoney/src/shared/helpers/validarEmail.dart';
 import 'package:mymoney/src/modules/registers/pages/validate/validate_form_page.dart';
 import 'package:mymoney/src/shared/colors/app_colors.dart';
 import 'package:mymoney/src/shared/components/app_button.dart';

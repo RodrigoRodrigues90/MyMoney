@@ -1,7 +1,8 @@
 
-// ignore_for_file: file_names
+// ignore_for_file: file_names, unnecessary_brace_in_string_interps
 
 import 'package:flutter/material.dart';
+import 'package:mymoney/src/config/appKeys.dart';
 import 'package:mymoney/src/config/app_settings.dart';
 import 'package:mymoney/src/modules/login/page/login_page.dart';
 import 'package:mymoney/src/shared/colors/app_colors.dart';
@@ -18,11 +19,10 @@ class personalRegisterPage extends StatefulWidget {
 // ignore: camel_case_types
 class _personalRegisterPageState extends State<personalRegisterPage> {
 
-late Future<String> nameUser;
-late String savedValue = '';
+late String? savedValue = '';
 
 void loadSavedValue() async {
-    String value = await AppSettings.get();
+    String? value = await AppSettings.getData(AppKeys.user);
     setState(() {
       savedValue = value;
     });
@@ -31,7 +31,6 @@ void loadSavedValue() async {
   @override
   void initState(){
     super.initState();
-    nameUser = AppSettings.get();
     loadSavedValue();
   }
 

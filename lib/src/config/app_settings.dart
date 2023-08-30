@@ -1,22 +1,24 @@
-import 'package:shared_preferences/shared_preferences.dart';
+// ignore_for_file: prefer_const_constructors
+
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:mymoney/src/config/appKeys.dart';
 
 class AppSettings{
-static String fullname = "fullName";
-static String tokenUser = "tokenUser";
+ static final FlutterSecureStorage  security = FlutterSecureStorage();
 
-static void save(String name, String token) async{
-  var _prefs = await SharedPreferences.getInstance();
-  _prefs.setString(fullname, name);
-  _prefs.setString(tokenUser, token);
+
+static Future<void> saveData(AppKeys key, String value) async{
+  await security.write(key: key.toString() ,value: value);
 }
 
-static Future<String> get() async{
-  var _prefs = await SharedPreferences.getInstance();
-  var string = _prefs.getString(fullname).toString();
-  String _prefsStringFullName = string; 
-  
-  print(_prefsStringFullName);
-  return _prefsStringFullName;
+static Future<void> deleteData(AppKeys key) async{
+  await security.delete(key: key.toString());
 }
+
+static Future<String?> getData(AppKeys key) async{
+  return await security.read(key: key.toString());
+}
+
+
 
 }

@@ -1,3 +1,5 @@
 {
-    "java.configuration.updateBuildConfiguration": "interactive"
+    "java.configuration.updateBuildConfiguration": "disabled",
+    "cmake.sourceDirectory": "/home/rodrigo/VSCODE_WORKSPACE/MyMoney/mymoney/linux",
+    "C_Cpp.errorSquiggles": "enabled"
 }

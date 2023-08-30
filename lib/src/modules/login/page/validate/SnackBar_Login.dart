@@ -1,13 +1,15 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 
 import '../../../../shared/colors/app_colors.dart';
 
 class AppSnackBar {
 
-  static void showMassageNotAllowed(context) {
+  static void showMassageUserNotFound(context) {
     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
       backgroundColor: AppColors.expense,
-      content: Text("Usuário ou senha inválida"),
+      content: Text("Usuário não encontrado"),
       behavior: SnackBarBehavior.floating,
       duration: Duration(seconds: 1),
     ));

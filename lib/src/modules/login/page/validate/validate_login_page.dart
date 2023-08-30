@@ -1,8 +1,9 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, unnecessary_brace_in_string_interps
 
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:mymoney/src/config/appKeys.dart';
 import 'package:mymoney/src/config/app_settings.dart';
 import 'package:mymoney/src/modules/personalRegister/pages/personalRegister_page.dart';
 import 'package:mymoney/src/shared/components/app_logo_title.dart';
@@ -19,8 +20,7 @@ class ValidateLoginPage extends StatefulWidget {
 class _ValidateLoginPageState extends State<ValidateLoginPage> {
   bool isLoading = true;
   late Timer redirectTimer;
-  late Future<String> nameUser;
-  late String savedValue = '';
+  late String? savedValue = '';
 
   void redirect() {
     Navigator.push(context,
@@ -28,7 +28,7 @@ class _ValidateLoginPageState extends State<ValidateLoginPage> {
   }
 
    void loadSavedValue() async {
-    String value = await AppSettings.get();
+    String? value = await AppSettings.getData(AppKeys.user);
     setState(() {
       savedValue = value;
     });
@@ -43,7 +43,6 @@ class _ValidateLoginPageState extends State<ValidateLoginPage> {
           isLoading = false;
         }));
     redirectTimer = Timer(const Duration(seconds: 3), redirect);
-    nameUser = AppSettings.get();
     loadSavedValue();
   }
 
