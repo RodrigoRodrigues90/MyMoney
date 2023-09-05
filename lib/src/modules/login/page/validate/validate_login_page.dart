@@ -8,7 +8,6 @@ import 'package:mymoney/src/config/app_settings.dart';
 import 'package:mymoney/src/modules/personalRegister/pages/personalRegister_page.dart';
 import 'package:mymoney/src/shared/components/app_logo_title.dart';
 import '../../../../shared/colors/app_colors.dart';
-import '../../../../shared/components/app_loading.dart';
 
 class ValidateLoginPage extends StatefulWidget {
   const ValidateLoginPage({super.key});
@@ -18,7 +17,6 @@ class ValidateLoginPage extends StatefulWidget {
 }
 
 class _ValidateLoginPageState extends State<ValidateLoginPage> {
-  bool isLoading = true;
   late Timer redirectTimer;
   late String? savedValue = '';
 
@@ -27,8 +25,8 @@ class _ValidateLoginPageState extends State<ValidateLoginPage> {
         MaterialPageRoute(builder: (context) => const personalRegisterPage()));
   }
 
-   void loadSavedValue() async {
-    String? value = await AppSettings.getData(AppKeys.user);
+  void loadSavedValue() async {
+    String? value = await AppSettings.getData(AppKeys.user_fullName);
     setState(() {
       savedValue = value;
     });
@@ -37,13 +35,10 @@ class _ValidateLoginPageState extends State<ValidateLoginPage> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(
-      const Duration(seconds: 2),
-    ).then((_) => setState(() {
-          isLoading = false;
-        }));
-    redirectTimer = Timer(const Duration(seconds: 3), redirect);
     loadSavedValue();
+    setState(() {
+      redirectTimer = Timer(const Duration(seconds: 2), redirect);
+    });
   }
 
   @override
@@ -54,24 +49,20 @@ class _ValidateLoginPageState extends State<ValidateLoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    return isLoading
-        ? const Center(
-            child: AppLoading(),
-          )
-        : Scaffold(
-            backgroundColor: AppColors.initialPageBackground,
-            body: SafeArea(
-              child: Center(
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    AppLogoTitle(title: 'Olá, ${savedValue}'),
-                  ],
-                ),
-              ),
-            ),
-          );
+    return Scaffold(
+      backgroundColor: AppColors.initialPageBackground,
+      body: SafeArea(
+        child: Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              AppLogoTitle(title: 'Olá, ${savedValue}'),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }

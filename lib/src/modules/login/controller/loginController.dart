@@ -3,7 +3,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
-import 'package:mymoney/src/modules/login/page/validate/SnackBar_Login.dart';
+import 'package:mymoney/src/shared/components/SnackBar_Login.dart';
 import 'package:mymoney/src/modules/login/service/loginService.dart';
 import 'package:mymoney/src/shared/helpers/validarEmail.dart';
 
@@ -15,7 +15,6 @@ abstract class _loginController with Store {
   loginService service = loginService();
   late String email;
   late String senha;
-  late int responseStatusCode;
   late BuildContext buildContext;
 
   @observable
@@ -25,17 +24,19 @@ abstract class _loginController with Store {
   bool isSuccess = false;
 
   @action
-  Future<void> checkData({required String emailController, required String senhaController, required BuildContext buildContext,}) async {
-    
+  Future<void> checkData({
+    required String emailController,
+    required String senhaController,
+    required BuildContext buildContext,
+  }) async {
     this.buildContext = buildContext;
 
     if (_validateData(email: emailController, senha: senhaController)) {
       email = emailController;
       senha = senhaController;
+
       setIsLoading();
-      await sendData();//---chama o loginService 
-
-
+      await sendData(); //---chama o loginService
     } else {
       AppSnackBar.showMassageInvalidFormat(buildContext);
     }
@@ -44,7 +45,6 @@ abstract class _loginController with Store {
   @action
   void setIsLoading({bool? value}) => isLoading = value ?? !isLoading;
 
-
   @action
   void setIsSuccess({bool? value}) => isSuccess = value ?? !isSuccess;
 
@@ -52,15 +52,15 @@ abstract class _loginController with Store {
   bool _validateData({required String email, required String senha}) {
     return (validarEmail(email) && senha.isNotEmpty);
   }
-///================================///
 
+  ///================================///
 
   //=====chamada do service=====//
   Future<void> sendData() async {
     Map result = await service.sendLoginData(email: email, senha: senha);
 
-    result.containsKey('sucesso')
-        ? setIsSuccess
+    result.containsKey('success')
+        ? setIsSuccess()
         : throwException(result['exception']);
   }
   ///==========================///
@@ -85,5 +85,6 @@ abstract class _loginController with Store {
         AppSnackBar.showMassage(buildContext);
     }
   }
+
   ///================================///
 }

@@ -1,14 +1,13 @@
 // ignore_for_file: prefer_const_constructors, avoid_print, empty_statements
-
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:mymoney/src/modules/registers/controller/registerController.dart';
+import 'package:mymoney/src/shared/components/SnackBar_Login.dart';
 import 'package:mymoney/src/shared/helpers/validarEmail.dart';
 import 'package:mymoney/src/modules/registers/pages/validate/validate_form_page.dart';
 import 'package:mymoney/src/shared/colors/app_colors.dart';
 import 'package:mymoney/src/shared/components/app_button.dart';
 import 'package:mymoney/src/shared/components/app_logo_title.dart';
-
-import '../../../shared/components/error_page.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -57,7 +56,6 @@ class _RegisterPageState extends State<RegisterPage> {
                           iconSize: 80),
 
                       //------campo de nome--------//
-
                       TextFormField(
                         enabled: true,
                         textAlign: TextAlign.start,
@@ -160,7 +158,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             label: Text("Confirmar senha"),
                             border: UnderlineInputBorder(),
                             prefixIconColor: AppColors.logo,
-                            prefixIcon: Icon(Icons.lock_person)),
+                            prefixIcon: Icon(Icons.security_sharp)),
 
                         //------validar campo------//
                         validator: (value) {
@@ -186,13 +184,15 @@ class _RegisterPageState extends State<RegisterPage> {
                                       emailController: emailController.text,
                                       senhaController: senhaController.text,
                                       senhacConfirmadaController:
-                                          senhaConfirmadaController.text);
+                                      senhaConfirmadaController.text);
                                   carregarValidado();
-                                } catch (exception) {
-                                  print(exception);
-                                  carregarInvalidado();
+                                }on DioError catch(e) {
+                                  if (e.type == DioErrorType.other) {
+                                    AppSnackBar.showMassageServerError(context);
+                                  }if(e.type == DioErrorType.response) {
+                                    AppSnackBar.showMassageUserAlreadyExists(context);
+                                  }
                                 }
-                                ;
                               }
                             },
                             label: "Cadastrar"),
@@ -211,7 +211,6 @@ class _RegisterPageState extends State<RegisterPage> {
     if (_formKey.currentState!.validate()) {
       return true;
     } else {
-      print("formulário invalido");
       return false;
     }
   }
@@ -221,11 +220,6 @@ class _RegisterPageState extends State<RegisterPage> {
   void carregarValidado() {
     Navigator.push(context,
         MaterialPageRoute(builder: (context) => const ValidateFormPage()));
-  }
-
-  void carregarInvalidado() {
-    Navigator.push(context,
-        MaterialPageRoute(builder: (context) => const ErrorFormPage()));
   }
   //--------------------------------
 }

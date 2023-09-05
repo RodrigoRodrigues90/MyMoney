@@ -1,4 +1,3 @@
-
 import 'package:dio/dio.dart';
 import 'package:mymoney/src/modules/personalRegister/model/personalRegisterData_model.dart';
 import 'package:mymoney/src/modules/personalRegister/repository/personalRegisterRepository.dart';
@@ -6,18 +5,38 @@ import 'package:mymoney/src/modules/personalRegister/repository/personalRegister
 import '../../../config/appKeys.dart';
 import '../../../config/app_settings.dart';
 
-class PersonalRegisterService{
+class PersonalRegisterService {
   PersonalRegisterRepository repository = PersonalRegisterRepository();
 
-  Future<void> sendData({required name, required email, required senha,}) async{
+  Future<Map<String, dynamic>> sendData({
+    required name,
+    required email,
+    required senha,
+  }) async {
+    try {
+      PersonalRegisterDatamodel dataModel =
+      PersonalRegisterDatamodel(name: name, email: email, password: senha);
+      await persistLocalData(await repository.sendPersonalData(dataModel));
 
-  PersonalRegisterDatamodel dataModel = PersonalRegisterDatamodel(name: name, email: email, password: senha );
+      return {'sucesso' : true};
 
-    await 
-    persistLocalData(await repository.sendPersonalData(dataModel));
+    } on DioError catch (e) {
+      return {'exception': getStatusCode(e)};
+    }
   }
 
-    
+//======retorna o StatusCode======//
+  int getStatusCode(DioError e) {
+    final DioError errorResult = e as DioError;
+
+    if(errorResult.response == null){
+      return 0;
+    }
+    return errorResult.response!.data['statusCode'];
+  }
+///==============================///  
+
+
 //==================Flutter Secury Storage - SaveData =======================//
   Future<void> persistLocalData(Response<Map<String, dynamic>> response) async {
     Map<String, dynamic>? result = response.data;
@@ -36,6 +55,6 @@ class PersonalRegisterService{
       AppSettings.saveData(AppKeys.user_fullName, user_fullName);
     }
   }
-///========================================================================///
 
+  ///========================================================================///
 }

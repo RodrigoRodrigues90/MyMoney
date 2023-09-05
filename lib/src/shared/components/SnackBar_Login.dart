@@ -41,4 +41,22 @@ class AppSnackBar {
       duration: Duration(seconds: 1),
     ));
   }
+
+  static void showMassageUserAlreadyExists(context) {
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+      backgroundColor: AppColors.expense,
+      content: Text("Esse usuário ja existe"),
+      behavior: SnackBarBehavior.floating,
+      duration: Duration(seconds: 1),
+    ));
+  }
+
+  static void showMassageValidate(context) {
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+      backgroundColor: AppColors.logo,
+      content: Text("validado"),
+      behavior: SnackBarBehavior.floating,
+      duration: Duration(seconds: 1),
+    ));
+  }
 }

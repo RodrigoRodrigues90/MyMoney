@@ -1,17 +1,17 @@
-// ignore_for_file: prefer_const_constructors, avoid_print
-
+import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
 import 'package:mymoney/src/modules/login/components/register_link.dart';
 import 'package:mymoney/src/modules/login/controller/loginController.dart';
+import 'package:mymoney/src/modules/login/page/validate/validate_login_page.dart';
 import 'package:mymoney/src/modules/registers/pages/register_page.dart';
-import 'package:mymoney/src/router/app_router.dart';
 import 'package:mymoney/src/shared/colors/app_colors.dart';
 import 'package:mymoney/src/shared/components/app_button.dart';
 import 'package:mymoney/src/shared/components/app_loading.dart';
 import 'package:mymoney/src/shared/components/app_logo_title.dart';
+
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -26,7 +26,6 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController senhaController = TextEditingController();
   bool passVisible = true;
   final _formKey = GlobalKey<FormState>();
-
   late ReactionDisposer sendDataReactionDisposer;
 
   @override
@@ -47,19 +46,20 @@ class _LoginPageState extends State<LoginPage> {
     reactTosendDataSuccess();
   }
 
-  void reactTosendDataSuccess(){
-    sendDataReactionDisposer = 
-    reaction((_) => controller.isSuccess, (bool success) async{
-
+  void reactTosendDataSuccess() {
+    sendDataReactionDisposer =
+      reaction((_) => controller.isSuccess, (bool success) {
       if (success) {
         controller.setIsSuccess();
-        print("login!");
-        await Navigator.of(context).pushNamed(AppRouter.login);
-
-        controller.setIsLoading();
-
+        Timer(const Duration(seconds: 2), () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const ValidateLoginPage()));
+          controller.setIsLoading();
+        });
       }
-     });
+    });
   }
 
   @override
@@ -98,7 +98,7 @@ class _LoginPageState extends State<LoginPage> {
                                 autofocus: false,
                                 keyboardType: TextInputType.text,
 
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                     label: Text("Email do Usuário"),
                                     border: UnderlineInputBorder(),
                                     prefixIconColor: AppColors.logo,
@@ -123,10 +123,10 @@ class _LoginPageState extends State<LoginPage> {
                                 obscureText: passVisible,
 
                                 decoration: InputDecoration(
-                                  label: Text("Senha"),
-                                  border: UnderlineInputBorder(),
+                                  label: const Text("Senha"),
+                                  border: const UnderlineInputBorder(),
                                   prefixIconColor: AppColors.logo,
-                                  prefixIcon: Icon(Icons.lock),
+                                  prefixIcon: const Icon(Icons.lock),
                                   suffixIcon: InkWell(
                                     onTap: () {
                                       setState(() {
@@ -156,8 +156,10 @@ class _LoginPageState extends State<LoginPage> {
                                       action: () async {
                                         if (formularioValido()) {
                                           await controller.checkData(
-                                            emailController: emailController.text,
-                                            senhaController: senhaController.text,
+                                            emailController:
+                                                emailController.text,
+                                            senhaController:
+                                                senhaController.text,
                                             buildContext: context,
                                           );
                                         }

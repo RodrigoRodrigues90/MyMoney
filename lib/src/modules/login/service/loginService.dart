@@ -19,15 +19,15 @@ class loginService {
       
       await persistLocalData(await repository.sendLoginData(loginData));// conexão com o back-end e ja tenta gravar dados localmente
       
-      return {"sucesso" : true};//retorna um Map{sucesso: true}
+      return {"success" : true};//retorna um Map{success: true}
    
     } on DioError catch (e) {
-      return {"exception": sendException(e)};//retorna um Map{exception: StatusCode}
+      return {"exception": getStatusCode(e)};//retorna um Map{exception: StatusCode}
     } 
   }
 
 //======retorna o StatusCode======//
-  int sendException(DioError e) {
+  int getStatusCode(DioError e) {
     final DioError errorResult = e as DioError;
 
     if(errorResult.response == null){
@@ -48,11 +48,13 @@ class loginService {
       Map<String, dynamic> userData = result["additional_information"];
       String userId = userData['id'].toString();
       String user_fullName = userData['fullName'];
+      
 
       AppSettings.saveData(AppKeys.auth_token, token);
       AppSettings.saveData(AppKeys.user, userData.toString());
       AppSettings.saveData(AppKeys.user_id, userId);
       AppSettings.saveData(AppKeys.user_fullName, user_fullName);
+      
     }
   }
 ///========================================================================///
