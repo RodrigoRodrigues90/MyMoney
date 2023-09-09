@@ -18,6 +18,7 @@ class _ExpenseListState extends State<ExpenseList> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        if(widget.title != null)
         Padding(
           padding: const EdgeInsets.only(bottom: 10),
           child: Row(

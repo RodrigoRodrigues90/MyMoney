@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:mymoney/src/config/appKeys.dart';
 import 'package:mymoney/src/config/app_settings.dart';
+import 'package:mymoney/src/modules/home/pages/home_page.dart';
 import 'package:mymoney/src/router/app_router.dart';
 import 'package:mymoney/src/shared/colors/app_colors.dart';
 import 'package:mymoney/src/shared/components/app_logo_title.dart';
@@ -19,9 +20,12 @@ class _InitialPageState extends State<InitialPage> {
     Timer(const Duration(seconds: 2), () async{
       String? user = await AppSettings.getData(AppKeys.auth_token);
       
-      
+      if(user == null){
       Navigator.of(context).pushReplacementNamed(
-        user == null ? AppRouter.login : AppRouter.home);
+       AppRouter.login );
+      }else{
+        Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage() ));
+      }
     });
   }
 

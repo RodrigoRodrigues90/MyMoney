@@ -4,5 +4,7 @@ enum AppKeys{
   auth_token,
   user,
   user_id,
-  user_fullName;
+  user_fullName,
+  goal_value,
+  user_email,
 }
