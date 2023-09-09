@@ -1,8 +1,12 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:mobx/mobx.dart';
-import 'package:mymoney/src/modules/personalRegister/service/personalRegister_service.dart';
 import 'package:mymoney/src/shared/components/SnackBar_Login.dart';
+
+import '../../../shared/helpers/autenticated_user.dart';
+import '../../../shared/models/user_model.dart';
+import '../service/personalRegister_service.dart';
 
 part 'personalRegister_controller.g.dart';
 
@@ -11,42 +15,53 @@ class PersonalRegisterController = _PersonalRegisterController
 
 abstract class _PersonalRegisterController with Store {
   PersonalRegisterService service = PersonalRegisterService();
+
+  @observable
+  bool isLoading = true;
+
+  @observable
+  bool isSuccess = false;
+
   late String name;
   late String email;
-  late String senha;
+  late double limitValue;
   late BuildContext buildContext;
 
   @action
-  Future<void> checkData(
-      {required nameController,
-      required emailController,
-      required senhaController,
-      context}) async {
-   
-    name = nameController;
-    email = emailController;
-    senha = senhaController;
-    buildContext = context;
-
-    //=====chamada do service=====//
-    Map result = await service.sendData(name: name, email: email, senha: senha);
-
-    result.containsKey('success')
-        ? AppSnackBar.showMassageValidate(buildContext)
-        : throwException(result['exception']);
+  Future<UserModel> loadUser() async {
+    UserModel user = await AuthenticatedUser.getUserData();
+    isLoading = false;
+    return user;
   }
 
-  void throwException(int code) {
-    switch (code) {
-      // case 400:
-      //   AppSnackBar.showMassageInvalidFormat(buildContext);
-      //   break;
-      case 500:
-        AppSnackBar.showMassageServerError(buildContext);
-        break;
-
-      default:
-        AppSnackBar.showMassage(buildContext);
+  @action
+  Future<void> checkData({
+    required String nameController,
+    required String emailController,
+    required String limitValueController,
+    required BuildContext buildContext,
+  }) async {
+    this.buildContext = buildContext;
+    limitValueController =
+        limitValueController.isEmpty ? "0" : limitValueController;
+    if (double.parse(limitValueController) > 0) {
+      name = nameController;
+      email = emailController;
+      limitValue = double.parse(limitValueController);
+      isLoading = true;
+      await sendData();
+      isLoading = false;
+    } else {
+      AppSnackBar.showMassageInvalidFormat(context);
     }
+  }
+
+  @action
+  Future<void> sendData() async {
+    isSuccess = await service.sendData(
+      name: name,
+      email: email,
+      limitValue: limitValue,
+    );
   }
 }

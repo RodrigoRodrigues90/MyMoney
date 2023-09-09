@@ -1,22 +1,25 @@
-// ignore_for_file: file_names, camel_case_types, avoid_print
-
 import 'package:dio/dio.dart';
-import 'package:mymoney/src/config/appKeys.dart';
-import 'package:mymoney/src/config/app_settings.dart';
-import 'package:mymoney/src/http/app_dio.dart';
 
+import '../../../http/app_dio.dart';
+import '../../../shared/models/user_update_model.dart';
 import '../model/personalRegisterData_model.dart';
 
 class PersonalRegisterRepository {
-    String baseURL = "http://192.168.15.72:3099/user/update";
-    Future<String?> iduser = AppSettings.getData(AppKeys.user_id);
-    
-Future<Response<Map<String, dynamic>>> sendPersonalData(PersonalRegisterDatamodel personalRegisterDatamodel)async{
-  Dio httpClient = await AppDio.getConnection(isAuth: true);
-  print(iduser.toString());
-  return httpClient.patch('$baseURL/$iduser',  data: personalRegisterDatamodel.toJson());
+  Future<Response<Map<String, dynamic>>> sendData(
+      PersonalRegisterModel personalRegisterData) async {
+    String url = "http://192.168.31.96:3099/goal/create";
 
-}
+    Dio clientHTTP = await AppDio.getConnection(isAuth: true);
 
-    
+    return clientHTTP.post(url, data: personalRegisterData.toJson());
+  }
+
+  Future<Response<Map<String, dynamic>>> updateDataUser(
+      String userId, UserUpdateModel userUpdate) async {
+    String url = "http://192.168.31.96:3099/user/update/$userId";
+
+    Dio clientHTTP = await AppDio.getConnection(isAuth: true);
+
+    return clientHTTP.patch(url, data: userUpdate.toJson());
+  }
 }

@@ -1,23 +1,29 @@
-class PersonalRegisterDatamodel {
-  
-  String name;
-  String email;
-  String password;
+import '../../../shared/models/user_conect_model.dart';
 
-  PersonalRegisterDatamodel({
-    required this.name,
-    required this.email,
-    required this.password,
+class PersonalRegisterModel {
+  late  String userId;
+  late double limitValue;
 
+  PersonalRegisterModel({
+    required this.userId,
+    required this.limitValue,
   });
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['fullName'] = name;
-    data['email'] = email;
-    data['password'] = password;
+
+    Map<String, dynamic> userConnect =
+        UserConnectModel(userId: userId).toJson();
+
+    data["user"] = userConnect;
+    data["limitValue"] = limitValue;
 
     return data;
   }
 
+  PersonalRegisterModel.fromJson(Map<String , dynamic> json){
+    limitValue = json["limitValue"];
+    userId = json['userId'];
+
+  }
 }

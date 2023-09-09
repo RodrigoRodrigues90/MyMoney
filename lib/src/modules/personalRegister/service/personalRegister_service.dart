@@ -1,60 +1,51 @@
-import 'package:dio/dio.dart';
-import 'package:mymoney/src/modules/personalRegister/model/personalRegisterData_model.dart';
-import 'package:mymoney/src/modules/personalRegister/repository/personalRegisterRepository.dart';
-
-import '../../../config/appKeys.dart';
-import '../../../config/app_settings.dart';
+import 'package:flutter/material.dart';
+import '../../../shared/helpers/autenticated_user.dart';
+import '../../../shared/models/user_model.dart';
+import '../../../shared/models/user_update_model.dart';
+import '../model/personalRegisterData_model.dart';
+import '../repository/personalRegisterRepository.dart';
 
 class PersonalRegisterService {
   PersonalRegisterRepository repository = PersonalRegisterRepository();
 
-  Future<Map<String, dynamic>> sendData({
-    required name,
-    required email,
-    required senha,
+  Future<bool> sendData({
+    required String name,
+    required String email,
+    required double limitValue,
   }) async {
     try {
-      PersonalRegisterDatamodel dataModel =
-      PersonalRegisterDatamodel(name: name, email: email, password: senha);
-      await persistLocalData(await repository.sendPersonalData(dataModel));
+      UserModel user = await AuthenticatedUser.getUserData();
 
-      return {'sucesso' : true};
+      if (name.compareTo(user.fullName) != 0 ||
+          email.compareTo(user.email) != 0) {
+        await updateRegister(
+          user.id,
+          UserUpdateModel(
+            fullName: name,
+            email: email,
+          ),
+        );
+      }
 
-    } on DioError catch (e) {
-      return {'exception': getStatusCode(e)};
+      if (limitValue != user.limitValue) {
+        await sendPersonalRegister(limitValue, user.id);
+      }
+
+      return true;
+    } catch (expetion) {
+      debugPrint(expetion.toString());
+      return false;
     }
   }
 
-//======retorna o StatusCode======//
-  int getStatusCode(DioError e) {
-    final DioError errorResult = e as DioError;
-
-    if(errorResult.response == null){
-      return 0;
-    }
-    return errorResult.response!.data['statusCode'];
-  }
-///==============================///  
-
-
-//==================Flutter Secury Storage - SaveData =======================//
-  Future<void> persistLocalData(Response<Map<String, dynamic>> response) async {
-    Map<String, dynamic>? result = response.data;
-
-    if (result != null) {
-      String token = result['access_token'];
-      Map<String, dynamic> userData = result["additional_information"];
-      String user_fullName = userData['fullName'];
-
-      AppSettings.deleteData(AppKeys.auth_token);
-      AppSettings.deleteData(AppKeys.user);
-      AppSettings.deleteData(AppKeys.user_fullName);
-
-      AppSettings.saveData(AppKeys.auth_token, token);
-      AppSettings.saveData(AppKeys.user, userData.toString());
-      AppSettings.saveData(AppKeys.user_fullName, user_fullName);
-    }
+  Future<void> sendPersonalRegister(double limitValue, String userId) async {
+    await repository.sendData(PersonalRegisterModel(
+      userId: userId,
+      limitValue: limitValue,
+    ));
   }
 
-  ///========================================================================///
+  Future<void> updateRegister(String userId, UserUpdateModel userUpdate) async {
+    await repository.updateDataUser(userId, userUpdate);
+  }
 }
