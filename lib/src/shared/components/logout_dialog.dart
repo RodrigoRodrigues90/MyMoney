@@ -3,6 +3,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:mymoney/src/config/appKeys.dart';
+import 'package:mymoney/src/config/app_settings.dart';
 import 'package:mymoney/src/modules/login/page/login_page.dart';
 import 'package:mymoney/src/shared/components/app_loading.dart';
 
@@ -20,8 +22,8 @@ class Logout_dialog {
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                child:
-                    const Text("Não", style: TextStyle(fontWeight: FontWeight.bold)),
+                child: const Text("Não",
+                    style: TextStyle(fontWeight: FontWeight.bold)),
               ),
               SimpleDialogOption(
                 onPressed: () {
@@ -39,7 +41,12 @@ class Logout_dialog {
     );
   }
 
-   void logOut(context) {
+  void logOut(context) {
+    //===delete data====//
+    AppSettings.deleteData(AppKeys.auth_token);
+    AppSettings.deleteData(AppKeys.user_fullName);
+    AppSettings.deleteData(AppKeys.user_id);
+    AppSettings.deleteData(AppKeys.user);
 
     //======tela de loading=====//
     Navigator.push(
@@ -50,7 +57,5 @@ class Logout_dialog {
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => const LoginPage()));
     });
-
-    
   }
 }

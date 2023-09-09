@@ -5,7 +5,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:mymoney/src/config/appKeys.dart';
 import 'package:mymoney/src/config/app_settings.dart';
-import 'package:mymoney/src/modules/personalRegister/pages/personalRegister_page.dart';
+import 'package:mymoney/src/modules/home/pages/home_page.dart';
 import 'package:mymoney/src/shared/components/app_logo_title.dart';
 import '../../../../shared/colors/app_colors.dart';
 
@@ -22,7 +22,7 @@ class _ValidateLoginPageState extends State<ValidateLoginPage> {
 
   void redirect() {
     Navigator.push(context,
-        MaterialPageRoute(builder: (context) => const personalRegisterPage()));
+        MaterialPageRoute(builder: (context) => const HomePage()));
   }
 
   void loadSavedValue() async {

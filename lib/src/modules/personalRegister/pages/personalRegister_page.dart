@@ -63,25 +63,12 @@ class _personalRegisterPageState extends State<personalRegisterPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: AppColors.logo,
-        elevation: 10,
-        leading: const Icon(
-          (Icons.person_2),
-          color: AppColors.initialPageBackground,
-        ),
-        title: Text('${savedName}'),
-        titleTextStyle: const TextStyle(color: AppColors.initialPageBackground),
-        titleSpacing: -10,
-        shadowColor: AppColors.black,
-        actions: [
-          IconButton(
-            onPressed: () {
-              logout_dialog.throwDialog(context);
-            },
-            icon: const Icon(Icons.logout),
-            color: AppColors.appPageBackground,
-          ),
-        ],
+        backgroundColor: AppColors.appPageBackground,
+        elevation: 0,
+        leading: IconButton(
+        icon: const Icon(Icons.arrow_back),
+        onPressed: (){Navigator.pop(context);}
+      ),
       ),
       backgroundColor: AppColors.appPageBackground,
       body: SingleChildScrollView(
@@ -91,7 +78,7 @@ class _personalRegisterPageState extends State<personalRegisterPage> {
             child: Center(
               child: Padding(
                 padding: const EdgeInsets.only(
-                  top: 50,
+                  top: 40,
                   left: 25,
                   right: 25,
                 ),
