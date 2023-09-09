@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:mymoney/src/config/appKeys.dart';
+import 'package:mymoney/src/config/app_settings.dart';
 import 'package:mymoney/src/router/app_router.dart';
 import 'package:mymoney/src/shared/colors/app_colors.dart';
 import 'package:mymoney/src/shared/components/app_logo_title.dart';
@@ -14,8 +16,12 @@ class InitialPage extends StatefulWidget {
 
 class _InitialPageState extends State<InitialPage> {
   void redirect(BuildContext context) {
-    Timer(const Duration(seconds: 2), () {
-      Navigator.of(context).pushReplacementNamed(AppRouter.login);
+    Timer(const Duration(seconds: 2), () async{
+      String? user = await AppSettings.getData(AppKeys.auth_token);
+      
+      
+      Navigator.of(context).pushReplacementNamed(
+        user == null ? AppRouter.login : AppRouter.home);
     });
   }
 
