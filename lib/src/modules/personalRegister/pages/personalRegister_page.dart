@@ -43,7 +43,7 @@ class _PersonalRegisterPageState extends State<PersonalRegisterPage> {
     fullNameController.dispose();
     emailController.dispose();
     limitValueController.dispose();
-    sendDataReactionDisposer();
+    reactsToSendDataSuccess();
     super.dispose();
   }
 

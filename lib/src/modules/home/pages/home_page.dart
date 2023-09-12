@@ -125,25 +125,25 @@ class _HomePageState extends State<HomePage> {
                               color: const Color(0xB3D0D2D1),
                               borderRadius: BorderRadius.circular(10),
                             ),
-                            child: const Center(
+                            child: Center(
                               child: Column(
                                 children: [
-                                  Padding(
+                                   Padding(
                                     padding:
-                                        EdgeInsets.symmetric(vertical: 5.0),
+                                       const EdgeInsets.symmetric(vertical: 5.0),
                                     child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceAround,
                                       children: [
                                         ManegementIndicator(
-                                            value: 20,
+                                            value: controller.plannedSpendBalance,
                                             subtitle: "Saldo gasto planejado",
                                             isMoney: true,
                                             isASC: false,
                                             maxValueAxis: 1,
                                             minValueAxis: 0),
                                         ManegementIndicator(
-                                            value: 20,
+                                            value: controller.dailyExpenseBalance,
                                             subtitle: "Saldo despesa diária",
                                             isMoney: true,
                                             isASC: false,
@@ -154,19 +154,19 @@ class _HomePageState extends State<HomePage> {
                                   ),
                                   Padding(
                                     padding:
-                                        EdgeInsets.symmetric(vertical: 5.0),
+                                       const EdgeInsets.symmetric(vertical: 5.0),
                                     child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceAround,
                                       children: [
                                         ManegementIndicator(
-                                            value: 2,
+                                            value: controller.dayOfMonth.toDouble(),
                                             subtitle: "Dias decorridos",
                                             isMoney: false,
                                             maxValueAxis: 1,
                                             minValueAxis: 0),
                                         ManegementIndicator(
-                                            value: 20,
+                                            value: controller.expensesDay,
                                             subtitle: "Despesa do dia",
                                             isMoney: true,
                                             maxValueAxis: 1,
