@@ -24,7 +24,7 @@ class ManegementIndicator extends StatelessWidget {
       children: [
         //classe da lib de graficos
         AnimatedRadialGauge(
-          duration: const Duration(seconds: 3),
+          duration: const Duration(seconds: 1),
           value: value,
           curve: Curves.decelerate,
           radius: 80,
@@ -40,7 +40,7 @@ class ManegementIndicator extends StatelessWidget {
               pointer: const GaugePointer.triangle(
                   borderRadius: 15,
                   width: 8,
-                  height: 130,
+                  height: 120,
                   color: Colors.blueGrey),
               progressBar: const GaugeProgressBar.rounded(
                 color: Colors.white12,
@@ -65,7 +65,7 @@ class ManegementIndicator extends StatelessWidget {
         ),
         Center(
           child: Padding(
-            padding: const EdgeInsets.only(top: 3.0),
+            padding: const EdgeInsets.only(top: 4.0),
             child: Column(children: [
               Text(
                 isMoney!
