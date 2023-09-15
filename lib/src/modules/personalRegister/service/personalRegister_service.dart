@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mymoney/src/config/appKeys.dart';
+import 'package:mymoney/src/config/app_settings.dart';
 import '../../../shared/helpers/autenticated_user.dart';
 import '../../../shared/models/user_model.dart';
 import '../../../shared/models/user_update_model.dart';
@@ -18,6 +20,9 @@ class PersonalRegisterService {
 
       if (name.compareTo(user.fullName) != 0 ||
           email.compareTo(user.email) != 0) {
+        AppSettings.saveData(AppKeys.user_fullName, name);
+        AppSettings.saveData(AppKeys.user_email, email);
+
         await updateRegister(
           user.id,
           UserUpdateModel(

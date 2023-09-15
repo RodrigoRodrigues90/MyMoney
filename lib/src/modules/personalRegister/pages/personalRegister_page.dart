@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:mymoney/src/config/appKeys.dart';
+import 'package:mymoney/src/config/app_settings.dart';
+import '../../../router/app_router.dart';
 import '../../../shared/colors/app_colors.dart';
 import '../../../shared/components/app_button.dart';
 import '../../../shared/components/app_loading.dart';
@@ -20,18 +23,26 @@ class _PersonalRegisterPageState extends State<PersonalRegisterPage> {
   TextEditingController emailController = TextEditingController();
   TextEditingController limitValueController = TextEditingController();
   late ReactionDisposer sendDataReactionDisposer;
+  Future<String?> meuFuturoNome = AppSettings.getData(AppKeys.user_fullName);
+  Future<String?> meuFuturoEmail = AppSettings.getData(AppKeys.user_email);
 
   @override
   void initState() {
     super.initState();
     controller.loadUser().then((user) {
-      fullNameController.text = user.fullName;
-      emailController.text = user.email;
       limitValueController.text =
           user.limitValue == null ? "0" : user.limitValue.toString();
     });
+    initText();
   }
 
+  void initText() async {
+    String? nome =  await meuFuturoNome;
+    String? mail = await meuFuturoEmail;
+
+    fullNameController.text = nome.toString();
+    emailController.text = mail.toString();
+  }
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -50,7 +61,11 @@ class _PersonalRegisterPageState extends State<PersonalRegisterPage> {
   void reactsToSendDataSuccess() {
     sendDataReactionDisposer =
         reaction((_) => controller.isSuccess, (bool success) {
-      if (success) Navigator.of(context).pop();
+      if (success) {
+        Navigator.of(context)
+            .pushNamedAndRemoveUntil(AppRouter.home, (route) => false);
+        controller.isLoading = false;
+      }
     });
   }
 

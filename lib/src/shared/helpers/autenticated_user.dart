@@ -1,14 +1,23 @@
-import 'package:mymoney/src/config/appKeys.dart';
+import 'dart:convert';
 import 'package:mymoney/src/config/app_settings.dart';
 
+import '../../config/appKeys.dart';
 import '../models/user_model.dart';
 
 class AuthenticatedUser {
   static Future<UserModel> getUserData() async {
-    UserModel userData = UserModel(
-        fullName: AppSettings.getData(AppKeys.user_fullName).toString(),
-        email: AppSettings.getData(AppKeys.user_email).toString(),
-        id: AppSettings.getData(AppKeys.user_id).toString());
+    Map<String, dynamic> userJson = {};
+
+    String? user = await AppSettings.getData(AppKeys.user);
+
+    if (user != null) userJson.addAll(jsonDecode(user));
+
+    String goalValue =
+        await AppSettings.getData(AppKeys.goal_value) ?? "0";
+
+    userJson["limitValue"] = goalValue;
+
+    UserModel userData = UserModel.fromJson(userJson);
 
     return userData;
   }
