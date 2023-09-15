@@ -8,7 +8,7 @@ class registerRepository {
     String baseURL = "http://192.168.15.72:3099/user";
 
     Future<Response<Map<String, dynamic>>> sendRegisterData(registerDatamodel registerData) async{
-      final Dio clientHttp = await AppDio.getConnection();
+      final Dio clientHttp = await AppDio.getConnection(isAuth: false);
 
       print("Dados: ${registerData.toJson()}");
 

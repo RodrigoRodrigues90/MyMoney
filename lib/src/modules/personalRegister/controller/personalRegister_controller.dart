@@ -52,7 +52,7 @@ abstract class _PersonalRegisterController with Store {
       await sendData();
       isLoading = false;
     } else {
-      AppSnackBar.showMassageInvalidFormat(context);
+      AppSnackBar.showMassageInvalidFormat(buildContext);
     }
   }
 

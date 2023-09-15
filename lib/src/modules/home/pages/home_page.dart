@@ -166,7 +166,7 @@ class _HomePageState extends State<HomePage> {
                                             isMoney: true,
                                             isASC: false,
                                             minValueAxis: 0,
-                                            maxValueAxis: controller.goalValue),
+                                            maxValueAxis: controller.goalValue  != 0.0  ? controller.goalValue : 1),
                                         ManegementIndicator(
                                             value:
                                                 controller.dailyExpenseBalance,
@@ -175,7 +175,7 @@ class _HomePageState extends State<HomePage> {
                                             isASC: false,
                                             minValueAxis: 0,
                                             maxValueAxis:
-                                                controller.dailyExpenseBalance)
+                                                controller.dailyExpenseBalance != 0.0 ? controller.dailyExpenseBalance : 1 )
                                       ],
                                     ),
                                   ),
@@ -199,7 +199,7 @@ class _HomePageState extends State<HomePage> {
                                             isMoney: true,
                                             minValueAxis: 0,
                                             maxValueAxis:
-                                                controller.dailyExpenseBalance)
+                                                controller.dailyExpenseBalance != 0.0 ? controller.dailyExpenseBalance : 1)
                                       ],
                                     ),
                                   ),
