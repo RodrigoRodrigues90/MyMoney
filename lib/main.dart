@@ -32,6 +32,7 @@ class App extends StatelessWidget {
         AppRouter.personalRegister: (context) => const PersonalRegisterPage(),
         AppRouter.home: (context) => const HomePage(),
         AppRouter.history: (context) => const HistoryPage(),
+        AppRouter.inicio: (context) => const InitialPage(),
       },
     );
   }

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
+import 'package:mymoney/src/config/app_settings.dart';
+import '../../../config/appKeys.dart';
+import '../../../router/app_router.dart';
 import '../../../shared/helpers/data_helper.dart';
 import '../model/expense_model.dart';
 import '../service/home_service.dart';
@@ -99,4 +102,16 @@ abstract class _HomeController with Store {
   Future<int> _getDayOfMonth() async {
     return int.parse(DateHelper.getDayOfMonth());
   }
+
+   void logOut(BuildContext context) {
+    AppSettings.deleteData(AppKeys.auth_token);
+    AppSettings.deleteData(AppKeys.user_id);
+    AppSettings.deleteData(AppKeys.user);
+    AppSettings.deleteData(AppKeys.goal_value);
+
+    Navigator.of(context).pushReplacementNamed(
+      AppRouter.inicio,
+    );
+  }
+
 }

@@ -4,4 +4,5 @@ class AppRouter {
   static const String personalRegister = '/personal-register';
   static const String home = '/home';
   static const String history = '/history';
+  static const String inicio = '/init';
 }

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mymoney/src/modules/home/components/app_title.dart';
@@ -11,7 +12,6 @@ import 'package:mymoney/src/shared/components/app_button.dart';
 import 'package:mymoney/src/shared/components/app_loading.dart';
 import 'package:mymoney/src/shared/components/custom_bottom_bar.dart';
 import 'package:mymoney/src/shared/components/expense_button.dart';
-import 'package:mymoney/src/shared/components/logout_dialog.dart';
 import '../../../config/appKeys.dart';
 import '../../../config/app_settings.dart';
 import '../../../shared/colors/app_colors.dart';
@@ -24,7 +24,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  Logout_dialog logout_dialog = Logout_dialog();
   HomeController controller = HomeController();
 
   //======AppBar name=======//
@@ -77,7 +76,31 @@ class _HomePageState extends State<HomePage> {
                 actions: [
                   IconButton(
                     onPressed: () {
-                      logout_dialog.throwDialog(context);
+                      showCupertinoDialog<void>(
+                        context: context,
+                        builder: (BuildContext context) => CupertinoAlertDialog(
+                          title: const Text("LOGOUT"),
+                          content: const Text('Deseja mesmo sair?'),
+                          
+                          actions: <CupertinoDialogAction>[
+                            CupertinoDialogAction(
+                              child: Text('Não'),
+                              isDestructiveAction: true,
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                            ),
+                            CupertinoDialogAction(
+                              child: Text('Sim'),
+                              isDestructiveAction: false,
+                              onPressed: () {
+                                controller.logOut(context);
+                              },
+                            )
+                          ],
+                        ),
+                      );
+                      //logout_dialog.throwDialog(context);
                     },
                     icon: const Icon(Icons.logout),
                     color: AppColors.appPageBackground,
@@ -129,39 +152,43 @@ class _HomePageState extends State<HomePage> {
                             child: Center(
                               child: Column(
                                 children: [
-                                   Padding(
-                                    padding:
-                                       const EdgeInsets.symmetric(vertical: 15.0),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 15.0),
                                     child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceAround,
                                       children: [
                                         ManegementIndicator(
-                                            value: controller.plannedSpentBalance,
+                                            value:
+                                                controller.plannedSpentBalance,
                                             subtitle: "Saldo gasto planejado",
                                             isMoney: true,
                                             isASC: false,
                                             minValueAxis: 0,
                                             maxValueAxis: controller.goalValue),
                                         ManegementIndicator(
-                                            value: controller.dailyExpenseBalance,
+                                            value:
+                                                controller.dailyExpenseBalance,
                                             subtitle: "Saldo despesa diária",
                                             isMoney: true,
                                             isASC: false,
                                             minValueAxis: 0,
-                                            maxValueAxis: controller.dailyExpenseBalance)
+                                            maxValueAxis:
+                                                controller.dailyExpenseBalance)
                                       ],
                                     ),
                                   ),
                                   Padding(
-                                    padding:
-                                       const EdgeInsets.symmetric(vertical: 15.0),
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 15.0),
                                     child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceAround,
                                       children: [
                                         ManegementIndicator(
-                                            value: controller.dayOfMonth.toDouble(),
+                                            value: controller.dayOfMonth
+                                                .toDouble(),
                                             subtitle: "periodo decorridos",
                                             isMoney: false,
                                             maxValueAxis: 30,
@@ -171,7 +198,8 @@ class _HomePageState extends State<HomePage> {
                                             subtitle: "Despesa do dia",
                                             isMoney: true,
                                             minValueAxis: 0,
-                                            maxValueAxis: controller.dailyExpenseBalance)
+                                            maxValueAxis:
+                                                controller.dailyExpenseBalance)
                                       ],
                                     ),
                                   ),
