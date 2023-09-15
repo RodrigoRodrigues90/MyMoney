@@ -4,7 +4,6 @@ import 'package:mymoney/src/config/appKeys.dart';
 import 'package:mymoney/src/config/app_settings.dart';
 import 'package:mymoney/src/modules/home/model/expense_model.dart';
 import 'package:mymoney/src/modules/home/repository/home_repository.dart';
-import 'package:mymoney/src/modules/personalRegister/model/personalRegisterData_model.dart';
 
 class HomeService{
   HomeRepository repository = HomeRepository();
@@ -17,9 +16,7 @@ class HomeService{
 
       Response<List<dynamic>> responseList = 
       await repository.getExpenses(userId!);
-
-    print('Service - result: ${responseList.data}');
-
+      
     responseList.data?.forEach((response) {
       expenses.add(ExpenseModel.fromJson(response));
      });
@@ -32,22 +29,29 @@ class HomeService{
     }
   }
 
-  Future<double> getGoalValue() async{
-    try{
+    
+  Future<double> getGoalValue() async {
+    try {
       String? userId = await AppSettings.getData(AppKeys.user_id);
+      double limitValue = 0.0;
+      Response<Map<String,dynamic>> response = await repository.getGoal(userId!);
+      print(response.data);
+      if (response.data != '') {
+        int data = response.data?["limitValue"];
+        limitValue = data.toDouble();
+        AppSettings.saveData(
+          AppKeys.goal_value,
+          limitValue.toString(),
+        );
 
-      Response<Map<String, dynamic>> response = 
-      await repository.getGoal(userId!);
-
-      PersonalRegisterModel personalRegister = 
-      PersonalRegisterModel.fromJson(response.data!);
-
-      return personalRegister.limitValue;
-    }catch(e){
-      debugPrint(e.toString());
-      throw Exception(e);
+        return limitValue;
+      } else {
+        return limitValue;
+      }
+    } catch (ex) {
+      debugPrint(ex.toString());
+      throw Exception(ex);
     }
-
   }
 
 }

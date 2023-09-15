@@ -89,19 +89,19 @@ mixin _$HomeController on _HomeController, Store {
     });
   }
 
-  late final _$plannedSpendBalanceAtom =
-      Atom(name: '_HomeController.plannedSpendBalance', context: context);
+  late final _$plannedSpentBalanceAtom =
+      Atom(name: '_HomeController.plannedSpentBalance', context: context);
 
   @override
-  double get plannedSpendBalance {
-    _$plannedSpendBalanceAtom.reportRead();
-    return super.plannedSpendBalance;
+  double get plannedSpentBalance {
+    _$plannedSpentBalanceAtom.reportRead();
+    return super.plannedSpentBalance;
   }
 
   @override
-  set plannedSpendBalance(double value) {
-    _$plannedSpendBalanceAtom.reportWrite(value, super.plannedSpendBalance, () {
-      super.plannedSpendBalance = value;
+  set plannedSpentBalance(double value) {
+    _$plannedSpentBalanceAtom.reportWrite(value, super.plannedSpentBalance, () {
+      super.plannedSpentBalance = value;
     });
   }
 
@@ -141,8 +141,8 @@ mixin _$HomeController on _HomeController, Store {
       AsyncAction('_HomeController.loadData', context: context);
 
   @override
-  Future<void> loadData() {
-    return _$loadDataAsyncAction.run(() => super.loadData());
+  Future<void> loadData(BuildContext context) {
+    return _$loadDataAsyncAction.run(() => super.loadData(context));
   }
 
   @override
@@ -153,7 +153,7 @@ expenses: ${expenses},
 accValue: ${accValue},
 goalValue: ${goalValue},
 dailyExpenseBalance: ${dailyExpenseBalance},
-plannedSpendBalance: ${plannedSpendBalance},
+plannedSpentBalance: ${plannedSpentBalance},
 expensesDay: ${expensesDay},
 dayOfMonth: ${dayOfMonth}
     ''';

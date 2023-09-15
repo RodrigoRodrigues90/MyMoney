@@ -40,7 +40,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    controller.loadData;
+    controller.loadData(context);
     loadSavedValue();
     super.initState();
   }
@@ -53,6 +53,7 @@ class _HomePageState extends State<HomePage> {
           : Scaffold(
               appBar: AppBar(
                 backgroundColor: AppColors.logo,
+                toolbarHeight: 45,
                 elevation: 10,
                 leading: IconButton(
                   icon: const Icon(Icons.settings_sharp),
@@ -130,47 +131,47 @@ class _HomePageState extends State<HomePage> {
                                 children: [
                                    Padding(
                                     padding:
-                                       const EdgeInsets.symmetric(vertical: 5.0),
+                                       const EdgeInsets.symmetric(vertical: 15.0),
                                     child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceAround,
                                       children: [
                                         ManegementIndicator(
-                                            value: controller.plannedSpendBalance,
+                                            value: controller.plannedSpentBalance,
                                             subtitle: "Saldo gasto planejado",
                                             isMoney: true,
                                             isASC: false,
-                                            maxValueAxis: 1,
-                                            minValueAxis: 0),
+                                            minValueAxis: 0,
+                                            maxValueAxis: controller.goalValue),
                                         ManegementIndicator(
                                             value: controller.dailyExpenseBalance,
                                             subtitle: "Saldo despesa diária",
                                             isMoney: true,
                                             isASC: false,
-                                            maxValueAxis: 1,
-                                            minValueAxis: 0)
+                                            minValueAxis: 0,
+                                            maxValueAxis: controller.dailyExpenseBalance)
                                       ],
                                     ),
                                   ),
                                   Padding(
                                     padding:
-                                       const EdgeInsets.symmetric(vertical: 5.0),
+                                       const EdgeInsets.symmetric(vertical: 15.0),
                                     child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceAround,
                                       children: [
                                         ManegementIndicator(
                                             value: controller.dayOfMonth.toDouble(),
-                                            subtitle: "Dias decorridos",
+                                            subtitle: "periodo decorridos",
                                             isMoney: false,
-                                            maxValueAxis: 1,
-                                            minValueAxis: 0),
+                                            maxValueAxis: 30,
+                                            minValueAxis: 1),
                                         ManegementIndicator(
                                             value: controller.expensesDay,
                                             subtitle: "Despesa do dia",
                                             isMoney: true,
-                                            maxValueAxis: 1,
-                                            minValueAxis: 0)
+                                            minValueAxis: 0,
+                                            maxValueAxis: controller.dailyExpenseBalance)
                                       ],
                                     ),
                                   ),
@@ -180,7 +181,7 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(top: 10, bottom: 20),
+                          padding: const EdgeInsets.only(bottom: 20),
                           child: ExpenseList(
                               expenses: controller.expenses,
                               title: "Gastos Recentes"),

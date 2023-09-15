@@ -56,13 +56,13 @@ mixin AppDio{
   }
 
   static void onResponse(Response<dynamic> response, ResponseInterceptorHandler handler){
-    print("-------------Request Log----------------");
+    print("-------------Response Log----------------");
     print(response.data);
     handler.next(response);
   }
 
   static void onError( Dio dio, DioError error, ErrorInterceptorHandler handler){
-  print("-------------Request Log----------------");
+  print("-------------Error Log----------------");
   print(error.response);
   handler.next(error);
   }
