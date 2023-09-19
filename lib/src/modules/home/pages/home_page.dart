@@ -215,7 +215,7 @@ class _HomePageState extends State<HomePage> {
                               title: "Gastos Recentes"),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(bottom: 50),
+                          padding: const EdgeInsets.only(bottom: 60),
                           child: AppButton(
                               action: () {
                                 Navigator.of(context)
@@ -232,7 +232,7 @@ class _HomePageState extends State<HomePage> {
               ),
               floatingActionButton: ExpenseButton.add(context),
               floatingActionButtonLocation:
-                  FloatingActionButtonLocation.centerDocked,
+                  FloatingActionButtonLocation.miniEndDocked,
               bottomNavigationBar: const CustomBottomAppBar(
                 shape: CircularNotchedRectangle(),
               ),

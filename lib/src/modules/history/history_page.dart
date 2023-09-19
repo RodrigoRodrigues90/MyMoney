@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mymoney/src/modules/home/components/expense_list.dart';
 import 'package:mymoney/src/modules/home/model/expense_model.dart';
+import 'package:mymoney/src/router/app_router.dart';
 import 'package:mymoney/src/shared/colors/app_colors.dart';
 import 'package:mymoney/src/shared/components/app_logo_title.dart';
 
@@ -18,7 +19,7 @@ class HistoryPage extends StatelessWidget{
         backgroundColor: AppColors.appPageBackground,
         elevation: 0,
         leading: IconButton(
-          onPressed: () => Navigator.pop(context),
+          onPressed: () => Navigator.pushNamed(context, AppRouter.home),
           icon: const Icon(Icons.arrow_back , color: AppColors.logo,
           ) ),
         ),

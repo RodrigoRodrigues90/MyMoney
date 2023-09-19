@@ -18,7 +18,7 @@ class AppSnackBar {
   static void showMassageInvalidFormat(context) {
     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
       backgroundColor: AppColors.expense,
-      content: Text("Formato inválido"),
+      content: Text("Verifique os dados"),
       behavior: SnackBarBehavior.floating,
       duration: Duration(seconds: 1),
     ));
@@ -54,7 +54,18 @@ class AppSnackBar {
   static void showMassageValidate(context) {
     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
       backgroundColor: AppColors.logo,
-      content: Text("validado"),
+      content:
+      Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Padding(padding: EdgeInsets.only(right: 3),
+          child: Icon(Icons.check_circle_outline , color: Color.fromARGB(255, 54, 129, 57),),
+          ),
+          Text("enviado"),
+        ],
+      ) ,
       behavior: SnackBarBehavior.floating,
       duration: Duration(seconds: 1),
     ));

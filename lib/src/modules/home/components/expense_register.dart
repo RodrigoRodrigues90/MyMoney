@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:mymoney/src/modules/home/controller/expense_register_controller.dart';
+import 'package:mymoney/src/shared/helpers/data_helper.dart';
 import 'package:mymoney/src/shared/helpers/text_input_formatter.dart';
 import '../../../shared/colors/app_colors.dart';
 import '../../../shared/components/app_button.dart';
@@ -17,15 +19,16 @@ class ExpenseRegisterModal extends StatefulWidget {
 }
 
 class _ExpenseRegisterModalState extends State<ExpenseRegisterModal> {
+  ExpenseRegisterController controller = ExpenseRegisterController();
   final TextInputFormatter moneyFormatter = InputMask.moneyFormatter;
 
-  late final TextEditingController? moneyTextEditingController =
+  late final TextEditingController moneyTextEditingController =
       TextEditingController(text: moneyFormatter.formatText("0,00"));
-
-  late final TextEditingController? descricaoTextEditingController =
+  
+  late final TextEditingController descricaoTextEditingController =
       TextEditingController();
-
-  late final TextEditingController? dateController = TextEditingController();
+  late final TextEditingController categoryController = TextEditingController();
+  late final TextEditingController dateController = TextEditingController();
 
   String dropdownValue = 'Alimentação';
 
@@ -48,25 +51,31 @@ class _ExpenseRegisterModalState extends State<ExpenseRegisterModal> {
       lastDate: DateTime(2050),
     ).then((value) {
       setState(() {
-        initialDateValue = dataFormatada(value!);
+        data = value!;
+        initialDateValue = dataFormatada(value);
+        dateController.text = initialDateValue;
+        print(data);
       });
     });
   }
 
-  void printValue() {
-    print('$moneyTextEditingController');
-    print('$descricaoTextEditingController');
-    print('$dateController');
+  double convertToDouble(String string){
+  
+  // Remove non-numeric characters and replace ',' with '.'
+  String numericString = string.replaceAll(RegExp(r'[^0-9,]'), '').replaceAll(',', '.');
+
+  double numericValue = double.parse(numericString);
+  return numericValue;
+
   }
 
   @override
   void initState() {
     super.initState();
-    printValue();
+    categoryController.text = dropdownValue;
+    dateController.text = initialDateValue;
   }
 
-  @override
-  Widget build(BuildContext context) {
     final List<String> categories = <String>[
       'Alimentação',
       'Casa',
@@ -78,6 +87,8 @@ class _ExpenseRegisterModalState extends State<ExpenseRegisterModal> {
       'Serviço',
       'Transporte'
     ];
+  @override
+  Widget build(BuildContext context) {
 
     return SizedBox(
       height: MediaQuery.of(context).size.height * 0.8,
@@ -179,6 +190,7 @@ class _ExpenseRegisterModalState extends State<ExpenseRegisterModal> {
                             // This is called when the user selects an item.
                             setState(() {
                               dropdownValue = valor!;
+                              categoryController.text = dropdownValue;
                             });
                           },
                           items: categories
@@ -232,7 +244,16 @@ class _ExpenseRegisterModalState extends State<ExpenseRegisterModal> {
                         padding: const EdgeInsets.only(top: 50),
                         child: AppButton(
                             action: () {
-                              Navigator.pop(context);
+                              try {
+                                controller.checkData(
+                                  category: categoryController.text, 
+                                  description: descricaoTextEditingController.text, 
+                                  value:convertToDouble(moneyTextEditingController.text), 
+                                  registrationDate: DateHelper.getFormatData(data),
+                                  buildContext: context);
+                              } catch (e) {
+                                print(e);
+                              }
                             },
                             label: 'Despesa'),
                       ),

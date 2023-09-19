@@ -8,6 +8,7 @@ class ExpenseButton {
   static Widget? add(BuildContext context) {
     return FloatingActionButton(
       shape: const CircleBorder(side: BorderSide.none),
+      elevation: 3,
       backgroundColor: AppColors.logo,
       onPressed: () {
         AppModal.show(
@@ -20,7 +21,7 @@ class ExpenseButton {
       child: const Icon(
         Icons.paid,
         color: Colors.white,
-        size: 35,
+        size: 45,
       ),
     );
   }

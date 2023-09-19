@@ -76,11 +76,11 @@ class _ExpenseListState extends State<ExpenseList> {
                   children: [
                     Text(expense.description,
                         style: const TextStyle(
-                            fontSize: 13, fontWeight: FontWeight.bold)),
+                            fontSize: 15, fontWeight: FontWeight.bold)),
                     Text(
                       expense.category,
                       style: const TextStyle(
-                        fontSize: 10,
+                        fontSize: 13,
                       ),
                     ),
                   ]),
@@ -93,14 +93,14 @@ class _ExpenseListState extends State<ExpenseList> {
                 'R\$ ${expense.value.toString()}',
                 style: const TextStyle(
                   color: AppColors.expense,
-                  fontSize: 13,
+                  fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               Text(
                 expense.registrationDate,
                 style: const TextStyle(
-                  fontSize: 10,
+                  fontSize: 13,
                   fontWeight: FontWeight.bold,
                 ),
               ),
