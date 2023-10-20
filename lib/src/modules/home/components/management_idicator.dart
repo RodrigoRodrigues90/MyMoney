@@ -40,7 +40,7 @@ class ManegementIndicator extends StatelessWidget {
               pointer: const GaugePointer.triangle(
                   borderRadius: 15,
                   width: 8,
-                  height: 120,
+                  height: 110,
                   color: Colors.blueGrey),
               progressBar: const GaugeProgressBar.rounded(
                 color: Colors.white12,
@@ -58,7 +58,7 @@ class ManegementIndicator extends StatelessWidget {
                     cornerRadius: Radius.zero),
                 GaugeSegment(
                     from: maxValueAxis * 0.66,
-                    to: maxValueAxis,
+                    to: maxValueAxis * 1.00,
                     color: isASC! ? Colors.redAccent : Colors.greenAccent,
                     cornerRadius: Radius.zero),
               ]),

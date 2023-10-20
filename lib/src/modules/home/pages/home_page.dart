@@ -165,15 +165,15 @@ class _HomePageState extends State<HomePage> {
                                             subtitle: "Saldo gasto planejado",
                                             isMoney: true,
                                             isASC: false,
-                                            minValueAxis: 0,
+                                            minValueAxis: 1,
                                             maxValueAxis: controller.goalValue  != 0.0  ? controller.goalValue : 1),
                                         ManegementIndicator(
                                             value:
-                                                controller.dailyExpenseBalance,
+                                                controller.expenseDayBalance,
                                             subtitle: "Saldo despesa diária",
                                             isMoney: true,
                                             isASC: false,
-                                            minValueAxis: 0,
+                                            minValueAxis: 1,
                                             maxValueAxis:
                                                 controller.dailyExpenseBalance != 0.0 ? controller.dailyExpenseBalance : 1 )
                                       ],
@@ -191,13 +191,15 @@ class _HomePageState extends State<HomePage> {
                                                 .toDouble(),
                                             subtitle: "periodo decorridos",
                                             isMoney: false,
+                                            isASC: false,
                                             maxValueAxis: 30,
                                             minValueAxis: 1),
                                         ManegementIndicator(
                                             value: controller.expensesDay,
                                             subtitle: "Despesa do dia",
                                             isMoney: true,
-                                            minValueAxis: 0,
+                                            isASC: true,
+                                            minValueAxis: 1,
                                             maxValueAxis:
                                                 controller.dailyExpenseBalance != 0.0 ? controller.dailyExpenseBalance : 1)
                                       ],

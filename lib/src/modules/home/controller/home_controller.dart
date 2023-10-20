@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
 import 'package:mymoney/src/config/app_settings.dart';
+import 'package:mymoney/src/shared/helpers/limit_double.dart';
 import '../../../config/appKeys.dart';
 import '../../../router/app_router.dart';
 import '../../../shared/helpers/data_helper.dart';
@@ -39,17 +40,22 @@ abstract class _HomeController with Store {
   double expensesDay = 0;
 
   @observable
+  double expenseDayBalance = 0;
+
+  @observable
   int dayOfMonth = 1;
+
 
   @action
   Future<void> loadData(BuildContext context) async {
     goalValue = await _getGoalValue();
     expenses = await _getExpenses();
     accValue = await _getAccValue();
+    dayOfMonth = await _getDayOfMonth();
     dailyExpenseBalance = await _getDailyExpenseBalance();
     plannedSpentBalance = await _getPlannedSpentBalance();
     expensesDay = await _getExpensesDay();
-    dayOfMonth = await _getDayOfMonth();
+    expenseDayBalance = await _expendDayBalance();
     isLoading = false;
   }
 
@@ -70,7 +76,7 @@ abstract class _HomeController with Store {
     for (var expense in expenseList) {
       totalValue += expense.value;
     }
-
+    totalValue = LimitDouble.limitDouble(totalValue);
     return totalValue;
   }
 
@@ -79,24 +85,38 @@ abstract class _HomeController with Store {
   }
 
   Future<double> _getDailyExpenseBalance() async {
-    int daysOfMonth = 30;
+    int daysOfMonth = 30 - dayOfMonth;
     double spentBalance = goalValue - accValue;
-    return (spentBalance / daysOfMonth).toDouble().floorToDouble();
+    double resultado = (spentBalance / daysOfMonth).toDouble().floorToDouble();
+    resultado = LimitDouble.limitDouble(resultado);
+    return resultado;
   }
 
   Future<double> _getPlannedSpentBalance() async {
-    return goalValue - accValue;
+    double resultado = goalValue - accValue;
+    resultado = LimitDouble.limitDouble(resultado);
+    return resultado;
   }
 
   Future<double> _getExpensesDay() async {
-    double totalValue = 0;
+    double totalValue = 0.0;
     String actualDay = DateHelper.getFormatDMY(DateTime.now());
 
     for (var expense in expenseList) {
       if (expense.registrationDate == actualDay) totalValue += expense.value;
     }
-
+    totalValue = LimitDouble.limitDouble(totalValue);
     return totalValue;
+  }
+  
+  Future<double> _expendDayBalance() async{
+    double saldo = 0.0;
+    saldo = (dailyExpenseBalance - expensesDay).toDouble();
+    saldo = LimitDouble.limitDouble(saldo);
+    if (saldo < 0.0) {
+      saldo = 0.0;
+    } 
+    return saldo;
   }
 
   Future<int> _getDayOfMonth() async {
@@ -113,5 +133,6 @@ abstract class _HomeController with Store {
       AppRouter.inicio,
     );
   }
+  
 
 }

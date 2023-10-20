@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -11,28 +13,43 @@ import '../../../shared/helpers/input_mask.dart';
 import 'app_title.dart';
 import 'package:intl/intl.dart';
 
-class ExpenseRegisterModal extends StatefulWidget {
-  const ExpenseRegisterModal({super.key});
+class ExpenseUpdateModal extends StatefulWidget {
+  late String id;
+  late String category;
+  late String description;
+  late double value;
+
+  ExpenseUpdateModal({
+    Key? key,
+    required String this.id,
+    required String this.category,
+    required String this.description,
+    required double this.value,
+  }) : super(key: key);
 
   @override
-  State<ExpenseRegisterModal> createState() => _ExpenseRegisterModalState();
+  State<ExpenseUpdateModal> createState() => _ExpenseUpdateModalState();
 }
 
-class _ExpenseRegisterModalState extends State<ExpenseRegisterModal> {
+class _ExpenseUpdateModalState extends State<ExpenseUpdateModal> {
+  late String categoria;
+  late String descripcao;
+  late double valor;
+  late String registrationData;
+  late String dropdownValue;
+  late String expense_id;
+
   ExpenseRegisterController controller = ExpenseRegisterController();
   final TextInputFormatter moneyFormatter = InputMask.moneyFormatter;
 
   late final TextEditingController moneyTextEditingController =
       TextEditingController(text: moneyFormatter.formatText("0,00"));
-  
   late final TextEditingController descricaoTextEditingController =
       TextEditingController();
   late final TextEditingController categoryController = TextEditingController();
   late final TextEditingController dateController = TextEditingController();
 
-  String dropdownValue = 'Alimentação';
-
-  DateTime data = DateTime.now();
+  late DateTime data = DateTime.now();
   late String initialDateValue = dataFormatada(data);
 
   String dataFormatada(DateTime data_) {
@@ -58,36 +75,44 @@ class _ExpenseRegisterModalState extends State<ExpenseRegisterModal> {
     });
   }
 
-  double convertToDouble(String string){
-  
-  String numericString = string.replaceAll(RegExp(r'[^0-9,]'), '').replaceAll(',', '.');
+  double convertToDouble(String string) {
+    // Remove símbolos de moeda, espaços em branco à esquerda e substitui ',' por '.'
 
-  double numericValue = double.parse(numericString);
-  return numericValue;
+    String numericString =
+        string.trimLeft().replaceAll('R\$', '').replaceAll(',', '.');
 
+    double numericValue = double.parse(numericString);
+
+    return numericValue;
   }
 
   @override
   void initState() {
     super.initState();
-    categoryController.text = dropdownValue;
-    dateController.text = initialDateValue;
+    categoria = widget.category;
+    descripcao = widget.description;
+    valor = widget.value;
+    expense_id = widget.id;
+
+    categoryController.text = categoria;
+    descricaoTextEditingController.text = descripcao;
+    moneyTextEditingController.text = 'R\$ $valor';
+    convertToDouble(moneyTextEditingController.text);
   }
 
-    final List<String> categories = <String>[
-      'Alimentação',
-      'Casa',
-      'Dívidas',
-      'Educaçao',
-      'Lazer',
-      'Pessoal',
-      'Saúde',
-      'Serviço',
-      'Transporte'
-    ];
+  final List<String> categories = <String>[
+    'Alimentação',
+    'Casa',
+    'Dívidas',
+    'Educaçao',
+    'Lazer',
+    'Pessoal',
+    'Saúde',
+    'Serviço',
+    'Transporte'
+  ];
   @override
   Widget build(BuildContext context) {
-
     return SizedBox(
       height: MediaQuery.of(context).size.height * 0.8,
       child: Scaffold(
@@ -96,7 +121,7 @@ class _ExpenseRegisterModalState extends State<ExpenseRegisterModal> {
           child: Column(
             children: [
               const BarModal(),
-              const AppTitle(title: 'Nova despesa'),
+              const AppTitle(title: 'Editar despesa'),
               Padding(
                 padding: const EdgeInsets.only(
                   left: 25,
@@ -167,14 +192,15 @@ class _ExpenseRegisterModalState extends State<ExpenseRegisterModal> {
                         //================================//
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(top: 10.0, right: 10, left: 5),
+                        padding: const EdgeInsets.only(
+                            top: 10.0, right: 10, left: 5),
                         //============categoria==========//
                         child: DropdownButton<String>(
                           icon: const Icon(Icons.category_outlined,
                               color: Colors.green),
                           enableFeedback: true,
                           isExpanded: true,
-                          value: dropdownValue,
+                          value: categoryController.text,
                           style: const TextStyle(
                             color: Colors.green,
                             fontSize: 15,
@@ -206,7 +232,6 @@ class _ExpenseRegisterModalState extends State<ExpenseRegisterModal> {
                       Padding(
                         padding: EdgeInsets.only(top: 5),
                         child: CupertinoActionSheetAction(
-                            
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               mainAxisSize: MainAxisSize.max,
@@ -243,17 +268,21 @@ class _ExpenseRegisterModalState extends State<ExpenseRegisterModal> {
                         child: AppButton(
                             action: () {
                               try {
-                                controller.checkData(
-                                  category: categoryController.text, 
-                                  description: descricaoTextEditingController.text, 
-                                  value:convertToDouble(moneyTextEditingController.text), 
-                                  registrationDate: DateHelper.getFormatData(data),
-                                  buildContext: context);
+                                controller.checkDataUpDate(
+                                    id: expense_id,
+                                    category: categoryController.text,
+                                    description:
+                                        descricaoTextEditingController.text,
+                                    value: convertToDouble(
+                                        moneyTextEditingController.text),
+                                    registrationDate:
+                                        DateHelper.getFormatData(data),
+                                    buildContext: context);
                               } catch (e) {
                                 print(e);
                               }
                             },
-                            label: 'Despesa'),
+                            label: 'Alterar'),
                       ),
                     ]),
               ),

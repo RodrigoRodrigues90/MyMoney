@@ -4,6 +4,7 @@ import 'package:mymoney/src/shared/helpers/data_helper.dart';
 import '../../../shared/models/user_conect_model.dart';
 
 class ExpenseModel{
+late String id;
 late String category;
 late String description;
 late double value;
@@ -17,6 +18,7 @@ ExpenseModel({
 });
 
 ExpenseModel.fromJson(Map<String,dynamic> json){
+  id = json["id"];
   category = json["category"];
   description = json["description"];
   value = json["value"].toDouble();
@@ -33,7 +35,7 @@ Map<String, dynamic> toJson(String? userId) {
     data["description"] = description;
     data["value"] = value.toDouble();
     data["registrationDate"] = registrationDate;
-    print(userConnect);
+
     return data;
   }
 
@@ -42,8 +44,8 @@ Map<String, dynamic> toJsonUpdate() {
 
     data["category"] = category;
     data["description"] = description;
-    data["value"] = value;
-    data["registrationDate"] = DateTime.parse(registrationDate);
+    data["value"] = value.toDouble();
+    data["registrationDate"] = registrationDate;
 
     return data;
   }

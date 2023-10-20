@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:mymoney/src/shared/colors/app_colors.dart';
 
 class CustomBottomAppBar extends StatelessWidget {
-  final NotchedShape? shape;
+  final NotchedShape shape;
   const CustomBottomAppBar({
     required this.shape,
   });

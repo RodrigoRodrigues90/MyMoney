@@ -160,4 +160,29 @@ class AppSnackBar {
       duration: Duration(seconds: 1),
     ));
   }
+  static void showMassageValidateDelete(context) {
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+      backgroundColor: AppColors.logo,
+      content: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Padding(
+            padding: EdgeInsets.only(right: 3),
+            child: Icon(
+              Icons.check_circle_outline,
+              color: Color.fromARGB(255, 54, 129, 57),
+            ),
+          ),
+          Text(
+            "Despesa deletada",
+            style: TextStyle(fontSize: 15),
+          ),
+        ],
+      ),
+      behavior: SnackBarBehavior.floating,
+      duration: Duration(seconds: 1),
+    ));
+  }
 }

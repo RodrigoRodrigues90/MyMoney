@@ -30,7 +30,7 @@ class ExpenseRegisterService {
   }
 
   Future<bool> updateExpense({
-    required String userId,
+    required String expenseId,
     required String category,
     required String description,
     required double value,
@@ -40,11 +40,25 @@ class ExpenseRegisterService {
       ExpenseModel expense = ExpenseModel(
           category: category,
           description: description,
-          value: value,
+          value: value.toDouble(),
           registrationDate: registrationDate);
 
       Response<Map<String, dynamic>> response =
-          await repo.updateExpenses(userId, expense);
+          await repo.updateExpenses(expenseId, expense);
+      print(response.data);
+      return true;
+    } on DioError catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
+  Future<bool> deleteExpense({
+    required String userId,
+    }) async {
+    try {
+      Response<Map<String, dynamic>> response =
+          await repo.deleteExpense(userId);
       print(response.data);
       return true;
     } on DioError catch (e) {
