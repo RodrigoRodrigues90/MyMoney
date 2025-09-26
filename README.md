@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # mymoney
 
 A new Flutter project.
@@ -15,4 +16,6 @@ For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
 # MyMoney
+=======
+>>>>>>> 9b3d4cee6c583424f4484af62fb3d54ce60b6312
 # MyMoney
